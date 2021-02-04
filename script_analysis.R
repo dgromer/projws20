@@ -45,6 +45,12 @@ table(proj$sex)
 
 # Hypothesentests --------------------------------------------------------------
 
+# Hinweis: %>% liest sich als "dann". Also für den ersten Test unten:
+# (1) Nimm den Datensatz "proj", dann (2) berechne einen t-Test, dann
+# (3) formatiere die Ausgabe nach APA-Standard.
+# Um den Block auszuführen alle drei Zeilen (also z. B. Zeilen 56-58)
+# auswählen und auf "Run" klicken.
+
 # Gruppenvergleich Summe der Erwartungsratings in der Extinktionsphase
 # (Manipulations-Check)
 proj %>%
