@@ -57,10 +57,20 @@ proj %>%
   t_test(sum_exp_ext ~ group, ., var.equal = TRUE) %>%
   t_apa()
 
+# Mittelwerte + Standardabweichung
+proj %>%
+  group_by(group) %>%
+  summarize(mean = mean(sum_exp_ext), sd = sd(sum_exp_ext))
+
 # Gruppenvergleich Erwartungsrating nach dem Reinstatement
 proj %>%
   t_test(exp_reinst ~ group, ., var.equal = TRUE) %>%
   t_apa()
+
+# Mittelwerte + Standardabweichung
+proj %>%
+  group_by(group) %>%
+  summarize(mean = mean(exp_reinst), sd = sd(exp_reinst))
 
 # ANOVA:
 #   Abhängige Variable: Erwartungsratings
@@ -74,15 +84,33 @@ proj %>%
          within = "phase") %>%
   anova_apa()
 
+# Mittelwerte + Standardabweichung
+proj %>%
+  select(id, group, exp_end_ext, exp_reinst) %>%
+  pivot_longer(cols = starts_with("exp"), names_to = "phase",
+               values_to = "exp") %>%
+  group_by(group, phase) %>%
+  summarize(mean = mean(exp), sd = sd(exp))
+
 # Gruppenvergleich Bedrohlichkeitsratings nach der Extinktionsphase
 proj %>%
   t_test(threat_ext ~ group, ., var.equal = TRUE) %>%
   t_apa()
 
+# Mittelwerte + Standardabweichung
+proj %>%
+  group_by(group) %>%
+  summarize(mean = mean(threat_ext), sd = sd(threat_ext))
+
 # Gruppenvergleich Bedrohlichkeitsratings nach dem Reinstatement
 proj %>%
   t_test(threat_reinst ~ group, ., var.equal = TRUE) %>%
   t_apa()
+
+# Mittelwerte + Standardabweichung
+proj %>%
+  group_by(group) %>%
+  summarize(mean = mean(threat_reinst), sd = sd(threat_reinst))
 
 # ANOVA:
 #   Abhängige Variable: Bedrohlichkeitsrating
@@ -95,6 +123,14 @@ proj %>%
   aov_ez(id = "id", dv = "threat", data = ., between = "group",
          within = "phase") %>%
   anova_apa()
+
+# Mittelwerte + Standardabweichung
+proj %>%
+  select(id, group, threat_ext, threat_reinst) %>%
+  pivot_longer(cols = starts_with("threat"), names_to = "phase",
+               values_to = "threat") %>%
+  group_by(group, phase) %>%
+  summarize(mean = mean(threat), sd = sd(threat))
 
 # Plots ------------------------------------------------------------------------
 
@@ -210,4 +246,3 @@ p_threat <-
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
 p_threat
-
